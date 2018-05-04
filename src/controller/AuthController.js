@@ -20,38 +20,56 @@ export default ({config, db}) => {
     // register an account
     // /v1/account/add
     api.post('/register', (req, res) => {
+        // Pupil.findOne({email: req.body.email}, function (err, user) {
+        //     if (user) {
+        //         res.send({
+        //             error: err,
+        //             message: "Email already exists",
+        //             success: false
+        //         },401);
+        //         console.log(err)
+        //     } else {
 
-        let hashedPassword = Bcrypt.hashSync(req.body.password, 8);
+                let hashedPassword = Bcrypt.hashSync(req.body.password, 8);
 
-        let newPupil = new Pupil();
-        newPupil.contact.firstName = req.body.firstName;
-        newPupil.contact.lastName = req.body.lastName;
-        newPupil.email = req.body.email;
-        newPupil.contact.phoneNumber = req.body.phoneNumber;
-        newPupil.role = 'registered';
-        newPupil.password = hashedPassword;
-        newPupil.registration.provisional = req.body.provisional;
-        newPupil.registration.theoryTest = req.body.theoryTest;
-        newPupil.registration.previousLessons = req.body.previousLessons;
-        newPupil.registration.location = req.body.location;
-        newPupil.availability = req.body.availability;
+                let newPupil = new Pupil();
+                newPupil.contact.firstName = req.body.firstName;
+                newPupil.contact.lastName = req.body.lastName;
+                newPupil.email = req.body.email;
+                newPupil.contact.phoneNumber = req.body.phoneNumber;
+                newPupil.role = 'Applicant';
+                newPupil.password = hashedPassword;
+                newPupil.registration.provisional = req.body.provisional;
+                newPupil.registration.theoryTest = req.body.theoryTest;
+                newPupil.registration.previousLessons = req.body.previousLessons;
+                newPupil.registration.location = req.body.location;
+                newPupil.availability = req.body.availability;
 
-        newPupil.save(err => {
-            if (err) return res.status(500).json({
-                error: err,
-                message: "There has been an error registering pupil. Please Try again",
-                success: false
-            });
+                newPupil.save(err => {
+                    if (err) return res.status(401).json({
+                        error: err,
+                        message: "There has been an error registering pupil. Please Try again",
+                        success: false
+                    });
 
-            // if user is registered without errors
-            // create a token
-            let token = JWT.sign({id: newPupil._id}, config.secret, {
-                expiresIn: 86400 // expires in 24 hours
-            });
+                    // if user is registered without errors
+                    // create a token
+                    let token = JWT.sign({id: newPupil._id}, config.secret, {
+                        expiresIn: 86400 // expires in 24 hours
+                    });
 
-            res.status(200).json({auth: true, token: token, message: "Account successfully registered", success: true});
+                    res.status(200).json({
+                        auth: true,
+                        token: token,
+                        message: "Account successfully registered",
+                        success: true
+                    });
 
-        });
+                });
+        //     }
+        //
+        // });
+
     });
 
 

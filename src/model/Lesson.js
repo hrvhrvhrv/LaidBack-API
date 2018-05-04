@@ -1,8 +1,6 @@
 // mongoose module imported
 import mongoose from 'mongoose';
 
-// pupil removed as not sure if required
-// import Pupil from './Pupil';
 
 // defining data schema for mongoDB
 let Schema = mongoose.Schema;
@@ -17,18 +15,15 @@ let LessonSchema = new Schema({
         required: true
     },
     lessonDate: {
-        type: Number,
+        type: String,
         required: true
     }
     ,
     pickUpLocation: {
-        type: {
             type: String,
-            default: 'Point'
-        },
-        // coordinates: [Number]
+            default: 'Glasgow'
     },
-    // Pupil: {type: Schema.Types.ObjectId, ref: 'Pupil'}
+
 });
 
 module.exports = mongoose.model('Lesson', LessonSchema);
