@@ -60,7 +60,7 @@ export default ({config, db}) => {
 
                     res.status(200).json({
                         auth: true,
-                        token: token,
+                        idToken: token,
                         message: "Account successfully registered",
                         success: true
                     });
@@ -93,9 +93,10 @@ export default ({config, db}) => {
             let passwordIsValid = Bcrypt.compareSync(req.body.password, user.password);
             if (!passwordIsValid) return res.status(401).json({
                 auth: false,
-                token: null,
+                idToken: null,
                 message: "Your password was invalid",
-                success: false
+                success: false,
+
             });
 
             // if user is found and password is valid
@@ -107,9 +108,11 @@ export default ({config, db}) => {
             // return the information including token as JSON
             res.status(200).json({
                 auth: true,
-                token: token,
+                idToken: token,
                 message: "You have successfully logged in",
-                success: true
+                success: true,
+                localId: user._id,
+                expiresIn: 86400 // 24hrs
             });
         });
 
@@ -119,7 +122,7 @@ export default ({config, db}) => {
     // login
     // /v1/account/login
     api.get('/logout', (req, res) => {
-        res.status(200).send({auth: false, token: null, message: "You have successfully logged out"});
+        res.status(200).send({auth: false, idToken: null, message: "You have successfully logged out"});
     });
 
 

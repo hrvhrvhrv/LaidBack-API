@@ -1,5 +1,6 @@
 // mongoose module imported
 import mongoose from 'mongoose';
+import uniqueValidator from 'mongoose-unique-validator';
 
 
 // defining data schema for mongoDB
@@ -11,7 +12,7 @@ let LessonSchema = new Schema({
         required: true
     },
     lessonSLot: {
-        type: Number,
+        type: String,
         required: true
     },
     lessonDate: {
@@ -25,5 +26,6 @@ let LessonSchema = new Schema({
     },
 
 });
+LessonSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model('Lesson', LessonSchema);
