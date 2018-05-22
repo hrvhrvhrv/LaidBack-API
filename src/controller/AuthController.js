@@ -33,16 +33,15 @@ export default ({config, db}) => {
                 let hashedPassword = Bcrypt.hashSync(req.body.password, 8);
 
                 let newPupil = new Pupil();
-                newPupil.contact.firstName = req.body.firstName;
-                newPupil.contact.lastName = req.body.lastName;
+                newPupil.firstName = req.body.firstName;
+                newPupil.lastName = req.body.lastName;
                 newPupil.email = req.body.email;
-                newPupil.contact.phoneNumber = req.body.phoneNumber;
-                newPupil.role = 'Applicant';
+                newPupil.phoneNumber = req.body.phoneNumber;
                 newPupil.password = hashedPassword;
                 newPupil.registration.provisional = req.body.provisional;
                 newPupil.registration.theoryTest = req.body.theoryTest;
                 newPupil.registration.previousLessons = req.body.previousLessons;
-                newPupil.registration.location = req.body.location;
+                newPupil.location = req.body.location;
                 newPupil.availability = req.body.availability;
 
                 newPupil.save(err => {
@@ -112,6 +111,7 @@ export default ({config, db}) => {
                 message: "You have successfully logged in",
                 success: true,
                 localId: user._id,
+                role: user.role,
                 expiresIn: 86400 // 24hrs
             });
         });

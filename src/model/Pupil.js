@@ -6,20 +6,18 @@ import uniqueValidator from 'mongoose-unique-validator';
 let Schema = mongoose.Schema;
 
 let PupilSchema = new Schema({
-    contact: {
-        firstName: {
-            type: String,
-            required: true
-        },
-        lastName: {
-            type: String,
-            required: true
-        },
-        phoneNumber: {
-            type: String,
-            required: true,
-            unique:true
-        }
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
+    phoneNumber: {
+        type: String,
+        required: true,
+        unique:true
     },
     registration:{
         provisional: {
@@ -33,12 +31,12 @@ let PupilSchema = new Schema({
         previousLessons: {
             type: Number,
             default: 0
-        },
-        location: {
-            type: String,
-            default: 'G12 ABZ'
-            // this to become post code on map point coordinates - possibly!
         }
+    },
+    location: {
+        type: String,
+        default: 'G12 ABZ'
+
     },
     password: String,
     email: {
@@ -48,21 +46,24 @@ let PupilSchema = new Schema({
     },
     role: {
         type: String,
-        enum: ["Applicant", "Registered"],
+        enum: ["Applicant", "Registered","Instructor"],
         default: "Applicant"
     },
     availability: {
         type: Array,
         default: [
-            "mon","tue"
+            "mon","tue","wed","thur","fri"
         ]
     },
     lessons: [],
     blockBooking: {
         type: Number
-    }
+    },
+    created: { type: Date, default: Date.now }
 });
 
 //  using unique validator plugin for mongoDB - it checks that variables are unique and returns detailed errors if not
-PupilSchema.plugin(uniqueValidator);
+PupilSchema.plugin(uniqueValidator, { message: 'Please retry {PATH}. {VALUE}' });
+
+
 module.exports = mongoose.model('Pupil', PupilSchema);

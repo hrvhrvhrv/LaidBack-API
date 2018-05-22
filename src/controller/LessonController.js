@@ -29,23 +29,7 @@ export default ({config, db}) => {
         });
     });
 
-    // // /v1/blog/add - Create
-    //
-    // api.post('/add', (req, res) => {
-    //     let newBlog = new Blog();
-    //     newBlog.title= req.body.title;
-    //     newBlog.text = req.body.text;
-    //     newBlog.save(err => {
-    //         if (err) {
-    //             res.send(err);
-    //         }
-    //         res.json({
-    //             message: 'new Blog saved successfully'
-    //         });
-    //     });
-    // });
-    //
-    // /v1/blog/:id - Update
+
 
     api.put('/:id', (req, res) => {
         Lesson.findById(req.params.id, (err, lessonData) => {
@@ -67,16 +51,23 @@ export default ({config, db}) => {
             })
     });
 
-    // // /v1/blog/:id - Delete
-    // api.delete('/:id', (req, res) => {
-    //     Blog.remove({
-    //         _id: req.params.id
-    //     }, (err, pupildata) => {
-    //         if (err) {
-    //             res.send(err);
-    //         }
-    //     });
-    // });
+    api.get('/dates/today', (req, res) => {
+        let start = new Date();
+        start.setHours(0,0,0,0);
+
+        let end = new Date();
+        end.setHours(23,59,59,999);
+
+        Lesson.find({"lessonDate": {"$gte": start, "$lt": end}}, (err, lessonData) => {
+            if (err) {
+                res.send(err);
+
+            }
+
+                res.json(lessonData);
+            });
+
+    });
 
     return api;
 }

@@ -11,12 +11,13 @@ let LessonSchema = new Schema({
         type: String,
         required: true
     },
+
     lessonSLot: {
         type: String,
         required: true
     },
     lessonDate: {
-        type: String,
+        type: Date,
         required: true
     }
     ,
@@ -24,7 +25,10 @@ let LessonSchema = new Schema({
             type: String,
             default: 'Glasgow'
     },
-
+    created: {
+        type: Date,
+        default: Date.now
+    }
 });
 LessonSchema.plugin(uniqueValidator);
 

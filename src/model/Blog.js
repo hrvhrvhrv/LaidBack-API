@@ -11,7 +11,8 @@ let BlogPost = new Schema({
    },
    text:{
        type: String
-   }
+   },
+    created: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('BlogPost', BlogPost);

@@ -38,32 +38,46 @@ export default ({config, db}) => {
         });
     });
 
-    // /v1/pupil/add - Create
 
-    api.post('/add', (req, res) => {
-        let newPupil = new Pupil();
-        newPupil.contact.firstName = req.body.firstName;
-        newPupil.contact.lastName = req.body.lastName;
-        newPupil.contact.email = req.body.email;
-        newPupil.contact.phoneNumber = req.body.phoneNumber;
-        newPupil.role = 'registered';
-        newPupil.password = req.body.password;
-        newPupil.registration.provisional = req.body.provisional;
-        newPupil.registration.theoryTest = req.body.theoryTest;
-        newPupil.registration.previousLessons = req.body.previousLessons;
-        newPupil.registration.location = req.body.location;
-        newPupil.availability = req.body.availability;
+    // // /v1/pupil/reg/:id - Read 1 (return by ID)
+    //
 
-        newPupil.save(err => {
+    // Used to get a list of users whose role matches that as passed in the URL as :name
+
+    api.get('/regList/:name', (req, res) => {
+        Pupil.find({role: req.params.name}, (err, pupilData) => {
             if (err) {
                 res.status(500).json({error: err, message: "Woop wop somethings gone wrong!"});
             }
-
-            res.status(200).json({
-                message: 'new Pupil saved successfully'
-            });
+            res.json(pupilData);
         });
     });
+
+    // /v1/pupil/add - Create
+
+    // api.post('/add', (req, res) => {
+    //     let newPupil = new Pupil();
+    //     newPupil.contact.firstName = req.body.firstName;
+    //     newPupil.contact.lastName = req.body.lastName;
+    //     newPupil.contact.email = req.body.email;
+    //     newPupil.contact.phoneNumber = req.body.phoneNumber;
+    //     newPupil.password = req.body.password;
+    //     newPupil.registration.provisional = req.body.provisional;
+    //     newPupil.registration.theoryTest = req.body.theoryTest;
+    //     newPupil.registration.previousLessons = req.body.previousLessons;
+    //     newPupil.registration.location = req.body.location;
+    //     newPupil.availability = req.body.availability;
+    //
+    //     newPupil.save(err => {
+    //         if (err) {
+    //             res.status(500).json({error: err, message: "Woop wop somethings gone wrong!"});
+    //         }
+    //
+    //         res.status(200).json({
+    //             message: 'new Pupil saved successfully'
+    //         });
+    //     });
+    // });
 
 
     // // /v1/pupil/:id - Update
@@ -73,11 +87,9 @@ export default ({config, db}) => {
             if (err) {
                 res.status(500).json({error: err, message: "Woop wop somethings gone wrong!"});
             }
-            pupilData.contact.firstName = req.body.firstName;
-            pupilData.contact.lastName = req.body.lastName;
-            pupilData.contact.email = req.body.email;
-            pupilData.contact.phoneNumber = req.body.phoneNumber;
-            pupilData.role = 'registered';
+            pupilData.location = req.body.location;
+            pupilData.email = req.body.email;
+            pupilData.phoneNumber = req.body.phoneNumber;
 
             pupilData.save(err => {
                 if (err) {
@@ -88,7 +100,26 @@ export default ({config, db}) => {
 
         });
     });
+
+    // // /v1/pupil/registered/:id - Update
     //
+    //
+    api.put('/registered/:id', (req, res) => {
+        Pupil.findById(req.params.id, (err, pupilData) => {
+            if (err) {
+                res.status(500).json({error: err, message: "Woop wop somethings gone wrong!"});
+            }
+            pupilData.role = 'Registered';
+
+            pupilData.save(err => {
+                if (err) {
+                    res.status(500).json({error: err, message: "Woop wop somethings gone wrong!"});
+                }
+                res.status(200).json({message: "Pupil info updated"});
+            });
+
+        });
+    });
     // // /v1/pupil/:id - Delete
     api.delete('/:id', (req, res) => {
         Pupil.remove({
@@ -141,16 +172,18 @@ export default ({config, db}) => {
     //  // /v1/pupil/lesson/edit/:id
     api.put('/lesson/edit/:id', (req, res) => {
 
-            let LessonID = req.params.id;
-        let conditions = { _id: LessonID },
-            conditions2 = { _id: LessonID }
-            , update = { $set: {
-                "lessonSLot": req.body.lessonSLot,
-                "lessonDate": req.body.lessonDate
-                // "Pupil.lessons.lessonSlot": lessonData.lessonSLot
+        let LessonID = req.params.id;
+        let conditions = {_id: LessonID},
+            conditions2 = {_id: LessonID}
+            , update = {
+                $set: {
+                    "lessonSLot": req.body.lessonSLot,
+                    "lessonDate": req.body.lessonDate
+                    // "Pupil.lessons.lessonSlot": lessonData.lessonSLot
 
-            }}
-            , options = { multi: true };
+                }
+            }
+            , options = {multi: true};
 
 
         // let resLessonData = {
@@ -164,21 +197,19 @@ export default ({config, db}) => {
 
         // Lesson.update(LessonID, resLessonData, (err, lessonDataRes) => {
         Lesson.update(conditions, update, options, (err, lessonDataRes) => {
-                if (err) {
-                    res.status(500).json({error: err, message: "Woop wop somethings gone wrong!"});
-                }
+            if (err) {
+                res.status(500).json({error: err, message: "Woop wop somethings gone wrong!"});
+            }
 
-                //  To update the lesson on the pupil document we select the Pupil document and use findOneAndUpdate
-                //  The pupil is selected using hte _id from the lesson pupil id
-                // //  The second variable is telling mongoose to
-                // //
-                //
-
-
+            //  To update the lesson on the pupil document we select the Pupil document and use findOneAndUpdate
+            //  The pupil is selected using hte _id from the lesson pupil id
+            // //  The second variable is telling mongoose to
+            // //
+            //
 
 
-                res.status(200).json({message: "Lesson info Updated I think this time??", data: lessonDataRes});
-            });
+            res.status(200).json({message: "Lesson info Updated I think this time??", data: lessonDataRes});
+        });
 
         // Pupil.update({_id: lessonDataRes.pupilId}, update, options, (err) => {
         //     if (err) {
