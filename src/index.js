@@ -31,7 +31,7 @@ app.use(function (req, res, next) {
 app.use('/v1', routes);
 
 
-app.server.listen(config.port);
+app.server.listen(process.env.MONGODB_URI || config.port);
 
 console.log(`Started on port ${app.server.address().port} `);
 
