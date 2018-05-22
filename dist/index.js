@@ -50,7 +50,7 @@ app.use(function (req, res, next) {
 // api routes v1
 app.use('/v1', _routes2.default);
 
-app.server.listen(process.env.MONGODB_URI || _config2.default.port);
+app.server.listen(process.env.PORT || _config2.default.port);
 
 console.log('Started on port ' + app.server.address().port + ' ');
 
