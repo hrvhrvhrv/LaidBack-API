@@ -16,7 +16,7 @@ exports.default = function (callback) {
     var name = "Instructor";
     var Password = "Thisshouldbeastrongpassword";
 
-    var db = _mongoose2.default.connect(process.env.MONGODB_URI || 'mongodb://' + name + ':' + Password + '@ds251179.mlab.com:51179/laidback', { useMongoClient: true });
+    var db = _mongoose2.default.connect(process.env.MONGODB_URI || 'mongodb://' + name + ':' + Password + '@ds251179.mlab.com:51179/laidback');
 
     callback(db);
 }; // mongoose component imported so that defaults can be set

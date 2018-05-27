@@ -53,32 +53,6 @@ export default ({config, db}) => {
         });
     });
 
-    // /v1/pupil/add - Create
-
-    // api.post('/add', (req, res) => {
-    //     let newPupil = new Pupil();
-    //     newPupil.contact.firstName = req.body.firstName;
-    //     newPupil.contact.lastName = req.body.lastName;
-    //     newPupil.contact.email = req.body.email;
-    //     newPupil.contact.phoneNumber = req.body.phoneNumber;
-    //     newPupil.password = req.body.password;
-    //     newPupil.registration.provisional = req.body.provisional;
-    //     newPupil.registration.theoryTest = req.body.theoryTest;
-    //     newPupil.registration.previousLessons = req.body.previousLessons;
-    //     newPupil.registration.location = req.body.location;
-    //     newPupil.availability = req.body.availability;
-    //
-    //     newPupil.save(err => {
-    //         if (err) {
-    //             res.status(500).json({error: err, message: "Woop wop somethings gone wrong!"});
-    //         }
-    //
-    //         res.status(200).json({
-    //             message: 'new Pupil saved successfully'
-    //         });
-    //     });
-    // });
-
 
     // // /v1/pupil/:id - Update
     //

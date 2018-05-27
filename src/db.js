@@ -7,7 +7,7 @@ export default callback => {
     let name = "Instructor";
     let Password = "Thisshouldbeastrongpassword";
 
-    let db = mongoose.connect( process.env.MONGODB_URI ||'mongodb://' + name + ':' + Password + '@ds251179.mlab.com:51179/laidback', {useMongoClient: true});
+    let db = mongoose.connect( process.env.MONGODB_URI ||'mongodb://' + name + ':' + Password + '@ds251179.mlab.com:51179/laidback');
 
     callback(db);
 }
